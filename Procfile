@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/the-game-ranking -Dhttp.port=${PORT}
+web: target/universal/stage/bin/the-game-ranking -Dhttp.port=${PORT} -Dconfig.resource=production.conf

@@ -1,5 +1,18 @@
-@(message: String)
+@(ranking: List[(String, Int)])
 
-@main("Welcome to Play") {
-    @message
+@main("The Game Ranking") {
+    <h1>The Game Ranking</h1>
+    <table id="ranking" class="table table-hover table-bordered" cellspacing="0" width="100%">
+        <tr class="info">
+            <th>Player</th>
+            <th>Points</th>
+        </tr>
+        @for(player <- ranking) {
+            <tr>
+                <td>@player._1</td>
+                <td>@player._2</td>
+            </tr>
+        }
+    </table>
+
 }

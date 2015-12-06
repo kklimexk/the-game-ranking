@@ -8,9 +8,11 @@ scalaVersion := "2.11.6"
 
 libraryDependencies ++= Seq(
   jdbc,
+  evolutions,
   cache,
   ws,
-  specs2 % Test
+  specs2 % Test,
+  "org.postgresql" % "postgresql" % "9.3-1102-jdbc41"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
