@@ -1,18 +1,28 @@
-@(ranking: List[(String, Int)])
+@cssStyles = {
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/dataTables.bootstrap.css")">
+}
 
-@main("The Game Ranking") {
+@jsScripts = {
+    <script src="@routes.Assets.versioned("javascripts/jquery.dataTables.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/dataTables.bootstrap.js")" type="text/javascript"></script>
+    <script>
+            $(document).ready(function() {
+                $('#ranking').DataTable( {
+                    "ajax": "/rankingJSON",
+                    "order": [[ 1, "desc" ]]
+                });
+            });
+    </script>
+}
+
+@main("The Game Ranking", cssStyles, jsScripts) {
     <h1>The Game Ranking</h1>
     <table id="ranking" class="table table-hover table-bordered" cellspacing="0" width="100%">
-        <tr class="info">
-            <th>Player</th>
-            <th>Points</th>
-        </tr>
-        @for(player <- ranking) {
-            <tr>
-                <td>@player._1</td>
-                <td>@player._2</td>
+        <thead>
+            <tr class="info">
+                <th>Player</th>
+                <th>Points</th>
             </tr>
-        }
+        </thead>
     </table>
-
 }

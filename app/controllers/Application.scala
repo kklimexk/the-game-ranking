@@ -1,29 +1,29 @@
 package controllers
 
-import play.api.db.DB
+import db.Db
 import play.api.mvc._
-import play.api.Play.current
+import play.api.libs.json.Json
 
 class Application extends Controller {
 
   def index = Action {
-    type Player = (String, Int)
+    Ok(views.html.index())
+  }
 
-    var ranking = List.empty[Player]
+  def rankingJson = Action {
+    val ranking = Db.getRanking
 
-    val conn = DB.getConnection()
-    try {
-      val stmt = conn.createStatement
-
-      val rs = stmt.executeQuery("SELECT * FROM ranking")
-
-      while (rs.next) {
-        ranking :+= (rs.getString("player"), rs.getInt("points"))
-      }
-    } finally {
-      conn.close()
+    var jsonRanking = Json.arr()
+    ranking.foreach { position =>
+      val jsonPosition = Json.arr(
+        position._1,
+        position._2
+      )
+      jsonRanking :+= jsonPosition
     }
-    Ok(views.html.index(ranking.sortWith(_._2 > _._2)))
+
+    val jsonRankingResult = Json.obj("aaData" -> jsonRanking)
+    Ok(jsonRankingResult)
   }
 
 }
